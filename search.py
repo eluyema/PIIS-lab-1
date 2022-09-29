@@ -142,44 +142,44 @@ def nullHeuristic(state, problem=None):
 def aStarSearch(problem: SearchProblem, heuristic=nullHeuristic):
     from util import PriorityQueue;
 
-    start_coord = problem.getStartState()
+    startCoord = problem.getStartState()
     queue = PriorityQueue()
-    queue.push((start_coord, []),0)
-    costVisited = { start_coord: 0 }
+    queue.push((startCoord, []),0)
+    costVisited = { startCoord: 0 }
 
     while queue:
-        cur_coord, path = queue.pop()
+        currCoord, path = queue.pop()
 
-        if problem.isGoalState(cur_coord):
+        if problem.isGoalState(currCoord):
             return path
 
-        next_nodes = problem.getSuccessors(cur_coord)
-        for next_node in next_nodes:
-            neighCoord, way, price = next_node
-            new_cost = costVisited[cur_coord] + price
-            if neighCoord not in costVisited or new_cost < costVisited[neighCoord]:
-                priority = new_cost + heuristic(neighCoord, problem)
+        nextNodes = problem.getSuccessors(currCoord)
+        for nextNode in nextNodes:
+            neighCoord, way, price = nextNode
+            newCost = costVisited[currCoord] + price
+            if neighCoord not in costVisited or newCost < costVisited[neighCoord]:
+                priority = newCost + heuristic(neighCoord, problem)
                 queue.push((neighCoord, path + [way]), priority)
-                costVisited[neighCoord]= new_cost
+                costVisited[neighCoord]= newCost
     return []
 
 def greedySearch(problem: SearchProblem, heuristic=nullHeuristic):
     from util import PriorityQueue;
 
-    start_coord = problem.getStartState()
+    startCoord = problem.getStartState()
     queue = PriorityQueue()
-    queue.push((start_coord, []),0)
-    visited = []
+    queue.push((startCoord, []),0)
+    visited = [startCoord]
 
     while queue:
-        cur_coord, path = queue.pop()
+        currCoord, path = queue.pop()
 
-        if problem.isGoalState(cur_coord):
+        if problem.isGoalState(currCoord):
             return path
 
-        next_nodes = problem.getSuccessors(cur_coord)
-        for next_node in next_nodes:
-            neighCoord, way, price = next_node
+        nextNodes = problem.getSuccessors(currCoord)
+        for nextNode in nextNodes:
+            neighCoord, way, price = nextNode
             if neighCoord not in visited:
                 priority = heuristic(neighCoord, problem)
                 queue.push((neighCoord, path + [way]), priority)
